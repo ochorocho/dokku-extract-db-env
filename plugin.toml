@@ -1,0 +1,4 @@
+[plugin]
+description = "dokku extract env vars of `DATABASE_URL`"
+version = "0.0.1"
+[plugin.config]
