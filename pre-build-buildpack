@@ -18,7 +18,15 @@ DATABASE_HOST=${URL[3]}
 DATABASE_PORT=${URL[4]}
 DATABASE_NAME=${URL[5]}
 
+EXPORTS="export DATABASE_TYPE=$DATABASE_TYPE
+export DATABASE_USER=$DATABASE_USER
+export DATABASE_PASSWORD=$DATABASE_PASSWORD
+export DATABASE_HOST=$DATABASE_HOST
+export DATABASE_PORT=$DATABASE_PORT
+export DATABASE_NAME=$DATABASE_NAME"
+
 # Add database env vars
-id=$("$DOCKER_BIN" run $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "mkdir -p /app/.profile.d/ && echo -e \"export DATABASE_TYPE='$DATABASE_TYPE'\nexport DATABASE_USER='$DATABASE_USER'\nexport DATABASE_PASSWORD='$DATABASE_PASSWORD'\nexport DATABASE_HOST='$DATABASE_HOST'\nexport DATABASE_PORT='$DATABASE_PORT'\nexport DATABASE_NAME='$DATABASE_NAME'\" > /app/.profile.d/extract_db_env.sh")
+id=$("$DOCKER_BIN" run $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "mkdir -p /app/.profile.d/ && echo -e \"$EXPORTS\" > /app/.profile.d/extract_db_env.sh")
+
 test $("$DOCKER_BIN" wait $id) -eq 0
 "$DOCKER_BIN" commit $id $IMAGE > /dev/null
