@@ -11,7 +11,7 @@ dokku plugin:install https://github.com/ochorocho/dokku-extract-db-env.git extra
 ## What it does
 
 Adds the file `/app/.profile.d/extract_db_env.sh` with some `export` variables.
-This file is used to export EVN VARs
+This file is used to export ENV VARs
 
 The file will look like this:
 
