@@ -11,19 +11,12 @@ dokku_log_info1 "Populate env vars for database ..."
 
 URL=($(echo $DATABASE_URL | sed -e 's/\(.*\)\:\/\/\(.*\):\(.*\)\@\(.*\)\:\(.*\)\/\(.*\)/\1 \2 \3 \4 \5 \6/'))
 
-DATABASE_TYPE=${URL[0]}
-DATABASE_USER=${URL[1]}
-DATABASE_PASSWORD=${URL[2]}
-DATABASE_HOST=${URL[3]}
-DATABASE_PORT=${URL[4]}
-DATABASE_NAME=${URL[5]}
-
-EXPORTS="export DATABASE_TYPE=$DATABASE_TYPE
-export DATABASE_USER=$DATABASE_USER
-export DATABASE_PASSWORD=$DATABASE_PASSWORD
-export DATABASE_HOST=$DATABASE_HOST
-export DATABASE_PORT=$DATABASE_PORT
-export DATABASE_NAME=$DATABASE_NAME"
+EXPORTS="export DATABASE_TYPE='${URL[0]}'
+export DATABASE_USER='${URL[1]}'
+export DATABASE_PASSWORD='${URL[2]}'
+export DATABASE_HOST='${URL[3]}'
+export DATABASE_PORT='${URL[4]}'
+export DATABASE_NAME='${URL[5]}'"
 
 # Add database env vars
 id=$("$DOCKER_BIN" run $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "mkdir -p /app/.profile.d/ && echo -e \"$EXPORTS\" > /app/.profile.d/extract_db_env.sh")
