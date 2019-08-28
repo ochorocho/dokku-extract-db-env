@@ -1,7 +1,6 @@
-# Dokku copy plugin
+# Dokku extract db to env vars plugin
 
-Copy a folder using the dokku command
-
+The plugin aims to split the `DATABASE_URL` (DSN) into single variables.
 
 ## Install
 
@@ -10,8 +9,6 @@ dokku plugin:install https://github.com/ochorocho/dokku-extract-db-env.git extra
 ```
 
 ## What it does
-
-The plugin aims to split the `DATABASE_URL` (DSN) into single variables.
 
 Adds the file `/app/.profile.d/extract_db_env.sh` with some `export` variables.
 This file is used to export EVN VARs
