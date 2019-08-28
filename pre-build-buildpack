@@ -19,7 +19,9 @@ export DATABASE_PORT='${URL[4]}'
 export DATABASE_NAME='${URL[5]}'"
 
 # Add database env vars
-id=$("$DOCKER_BIN" run $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "mkdir -p /app/.profile.d/ && echo -e \"$EXPORTS\" > /app/.profile.d/extract_db_env.sh")
+id=$("$DOCKER_BIN" run "--label=com.dokku.app-name=${APP}" $DOKKU_GLOBAL_RUN_ARGS -d $IMAGE /bin/bash -c "mkdir -p /app/.profile.d/ && echo -e \"$EXPORTS\" > /app/.profile.d/extract_db_env.sh")
 
 test $("$DOCKER_BIN" wait $id) -eq 0
-"$DOCKER_BIN" commit $id $IMAGE > /dev/null
+
+DOKKU_COMMIT_ARGS=("--change" "LABEL org.label-schema.schema-version=1.0" "--change" "LABEL org.label-schema.vendor=dokku" "--change" "LABEL $DOKKU_CONTAINER_LABEL=")
+"$DOCKER_BIN" commit --change "LABEL com.dokku.app-name=$APP" "${DOKKU_COMMIT_ARGS[@]}" $id $IMAGE > /dev/null
